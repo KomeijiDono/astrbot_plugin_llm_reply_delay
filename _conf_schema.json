@@ -1,0 +1,113 @@
+{
+  "general": {
+    "description": "基础设置",
+    "type": "object",
+    "hint": "控制插件开关和当前使用的延迟模式。插件只影响 LLM 回复，不影响普通命令回复。",
+    "items": {
+      "enabled": {
+        "description": "启用",
+        "type": "bool",
+        "default": true,
+        "hint": "关闭后插件不会等待，LLM 回复会立即发送。"
+      },
+      "delay_mode": {
+        "description": "延迟模式",
+        "type": "string",
+        "default": "fixed",
+        "options": [
+          "fixed",
+          "random",
+          "length"
+        ],
+        "hint": "fixed=固定秒数；random=随机区间；length=按回复长度计算。"
+      }
+    }
+  },
+  "fixed_delay": {
+    "description": "固定延迟",
+    "type": "object",
+    "hint": "当延迟模式为 fixed 时生效。",
+    "items": {
+      "seconds": {
+        "description": "等待秒数",
+        "type": "float",
+        "default": 2.0,
+        "hint": "每条 LLM 回复发送前固定等待的秒数。负数会按 0 处理。",
+        "slider": {
+          "min": 0,
+          "max": 30,
+          "step": 0.5
+        }
+      }
+    }
+  },
+  "random_delay": {
+    "description": "随机延迟",
+    "type": "object",
+    "hint": "当延迟模式为 random 时生效，每次回复会在区间内随机等待。",
+    "items": {
+      "min_seconds": {
+        "description": "最小秒数",
+        "type": "float",
+        "default": 1.0,
+        "hint": "随机等待的下限。若大于最大秒数，插件会自动交换两者。",
+        "slider": {
+          "min": 0,
+          "max": 30,
+          "step": 0.5
+        }
+      },
+      "max_seconds": {
+        "description": "最大秒数",
+        "type": "float",
+        "default": 5.0,
+        "hint": "随机等待的上限。负数会按 0 处理。",
+        "slider": {
+          "min": 0,
+          "max": 60,
+          "step": 0.5
+        }
+      }
+    }
+  },
+  "length_delay": {
+    "description": "按长度延迟",
+    "type": "object",
+    "hint": "当延迟模式为 length 时生效。最终延迟 = 基础秒数 + 回复字数 * 每字秒数，并受最大秒数限制。",
+    "items": {
+      "base_seconds": {
+        "description": "基础秒数",
+        "type": "float",
+        "default": 0.5,
+        "hint": "无论回复长短都会等待的基础时间。",
+        "slider": {
+          "min": 0,
+          "max": 10,
+          "step": 0.1
+        }
+      },
+      "per_char_seconds": {
+        "description": "每字秒数",
+        "type": "float",
+        "default": 0.03,
+        "hint": "回复每增加 1 个字符额外增加的等待时间。负数会按 0 处理。",
+        "slider": {
+          "min": 0,
+          "max": 0.2,
+          "step": 0.01
+        }
+      },
+      "max_seconds": {
+        "description": "最大秒数",
+        "type": "float",
+        "default": 10.0,
+        "hint": "长度模式的最长等待时间，用于避免长回复等待过久。",
+        "slider": {
+          "min": 0,
+          "max": 120,
+          "step": 1
+        }
+      }
+    }
+  }
+}

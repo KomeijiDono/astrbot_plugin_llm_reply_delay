@@ -1,0 +1,7 @@
+name: astrbot_plugin_llm_reply_delay
+display_name: LLM 回复延迟
+desc: 控制 AstrBot 的 LLM 回复在发送前等待一段可配置的间隔。
+version: v1.0.0
+author: KomeijiDono
+repo: "https://github.com/KomeijiDono/astrbot_plugin_llm_reply_delay"
+astrbot_version: ">=4.5.7"
